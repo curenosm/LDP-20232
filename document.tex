@@ -1,0 +1,51 @@
+\documentclass[letterpaper,dvipsnames]{article}
+
+\usepackage{listings}
+\usepackage{framed,xcolor}
+\begin{document}
+	
+\colorlet{myGreen}{green!70!black}
+
+\lstdefinelanguage{Racket}{
+	basicstyle=\ttfamily, % mono espaciado
+	backgroundcolor = {\color{gray!10!}},
+ 	keywords={define,if}, % palabras reservadas
+ 	alsoletter={\#,\\,\'}, % Para colorear palabras con #foo, \foo
+ 	keywordstyle={\color{violet}}, % podemos cambiar color, tamaño etc ..
+	morestring=[b]",
+	tabsize=4,
+	moredelim=[s][\color{orange}]{'(}{)},
+	moredelim=[is][\color{myGreen}]{<}{>},
+	frame=single, framerule=0pt,
+	framesep= 3mm,
+	literate={é}{{\'e}}1{á}{{\'a}}1{í}{{\'i}}1{ó}{{\'o}}1{ú}{{\'u}}1,
+	linewidth={.8\linewidth}, % Puede ser 3cm, 3pt, 3mm, .5\linewidth, etc
+	stringstyle=\color{blue!80!},
+	emph={\#f,\#t,1,2,3,4,5,6,7,8,9,0}, emphstyle=\color{myGreen},
+	emph={[2]gris_uwu},emphstyle={[2]\color{gray}},
+	emph={[3]\'ama},emphstyle={[3]\color{brown}},
+}
+
+\begin{lstlisting}[language=Racket]
+(define (foo n) (foo (- n <1>)))
+
+(define (if null) <3> "a1" foo)
+
+(define x1 (equals? null "a2" <1> foo))
+
+(if #t 
+	#t 
+		#f)
+		
+(define l1 '(1 2 3 4))
+(- <112212> <112>)
+
+Mis palabras reservadas son: #f \hola
+
+Soy gris pero no soy palabra clave: gris_uwu
+Soy café pero no soy palabra clave: 'ama
+
+acentos: á, é, í, ó, ú
+\end{lstlisting}
+
+\end{document}
