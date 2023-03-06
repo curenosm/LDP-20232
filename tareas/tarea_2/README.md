@@ -18,62 +18,44 @@
 <br>
 
 1. Dadas las siguientes expresiones en la gramática WAE dispuesta en sintaxis concreta, da la respectiva representación utilizando sintaxis abstracta por medio de los Árboles de Sintaxis Abstracta (ASA) correspondientes. En caso de no poder generar el árbol, justifica.
+ <br>
+    
+```lisp    
+Tomando como referencia la siguiente construcción para ASA 
 
-<br>
-
-```lisp
-Tomando como referencia la siguiente construcción para ASA
-
-;; TDA para representar los árboles de sintaxis
-;; abstracta del lenguaje WAE .
-(define -type WAE 
-    [id (id symbol ?)] 
-    [num (n numero ?)] 
-    [binop (f operador ?) (izq WAE ?) (der WAE ?)] 
-    [with (id symbol ?) (value WAE ?) (body WAE ?)])
-```
-
+; ; TDA para representar los árboles de sintaxis 
+; ; abstracta del lenguaje WAE  
+( define -type WAE  
+[ id ( id symbol ?)] 
+[ num ( n numero ?)]  
+[ binop ( f operador ?) ( izq WAE ?) ( der WAE ?)]  
+[ with ( id symbol ?) ( value WAE ?) ( body WAE ?)])  
+   ```      
 
 
-- **a)**
 
-<br>
+    - **a)**
+    
+    {- 25 {+ 17 {+ 4 5}}}
+     
 
-```lisp
-{- 25 {+ 17 {+ 4 5}}}
-```
+![1a](https://user-images.githubusercontent.com/80433557/222873134-50466f84-de06-4446-9924-180e6886a74f.jpg)
+    - **b)**
+    
 
-<br>
-<center>
-    <img src="1a.jpg" width="400">
-</center>
-
-- **b)**
-
-<br>
-
-```lisp
-{- {+ 30 {+ 44}}}
-```
+    {- {+ 30 {+ 44}}}
+  
 No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede generar el árbol
+    - **c)**
+   
 
-- **c)**
-
-<br>
-
-```ml
-{with {x 4}
-    {with {y {- x x}}
-        {+ x {- y 9}}}}
-```
-
-<br>
+    {with {x 4}
+        {with {y {- x x}}
+            {+ x {- y 9}}}}
+    
 
 
-<br>
-<center>
-    <img src="1c.jpg" width="500">
-</center>
+![1c](https://user-images.githubusercontent.com/80433557/222873224-57af214c-93fb-4d56-a9ba-fba2553eeed3.jpg)
 
 2. Dadas las siguientes expresiones en la gramática WAE dispuesta en sintaxis concreta, da la sintaxis abstracta correspondiente y realiza la sustitución que se indica.
 
@@ -85,7 +67,7 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
 
 
         (parse {+ a {+ b {- 32 57}}} )
-
+     
 
         (add (parse a) (parse {+ b {- 32 57}} ))
 
@@ -153,22 +135,26 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
         (with
             (parse y)
             (parse {- 30 {- y z}})
-            (parse {- 30 {+ y z}}))
+            (parse {- 30 {+ y z}})
+        )
 
         (with
             (id 'y)
             (sub (parse 30) (parse {- y z}}))
-            (sub (parse 30) (parse {+ y z}})))
+            (sub (parse 30) (parse {+ y z}}))
+        )
 
         (with
             (id 'y)
             (sub (num 30) (sub (parse y) (parse z)))
-            (sub (num 30) (add (parse y) (parse z))))
+            (sub (num 30) (add (parse y) (parse z)))
+        )
 
         (with
             (id 'y)
             (sub (num 30) (sub (id 'y) (id 'z)))
-            (sub (num 30) (add (id 'y) (id 'z))))
+            (sub (num 30) (add (id 'y) (id 'z)))
+        )
         ``` 
 
         <br>
@@ -259,7 +245,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
             'z 
             (id 'v))
         
-
         (subst 
             (with
                 (id 'y)
@@ -269,7 +254,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
             'z 
             (id 'v))
         
-
         (with
             (id 'y)
             (subst
@@ -281,7 +265,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 'z
                 (id 'v)))
         
-
         (with
             (id 'y)
             (sub 
@@ -291,13 +274,11 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (subst (num 30) 'z (id 'v))
                 (subst (add (id 'y) (id 'z)) 'z (id 'v) )))
         
-
         (with
             (id 'y)
             (sub (num 30) (sub (id 'y) (id 'v)) )
             (sub (num 30) (add (id 'y) (id 'v)) ))
         
-
         (sub
             (num 30)
             (add 
@@ -329,7 +310,12 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
             {with {b 9}
                 {with {c 4}
                     {with {d 11}
-                        {+ a {+ b {+ c d}}}}}}})
+                        {+ a {+ b {+ c d}}}
+                    }
+                }
+            }
+        }
+    )
 
     (with
         (parse a)
@@ -501,7 +487,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                         (id 'a)
                         (num 3))))))
     
-
     (interp
         (with (id 'b) (num 9)
             (with (id 'c) (num 4)
@@ -517,7 +502,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                         (id 'a)
                         (num 3))))))
 
-
     (interp
         (with (id 'b) (num 9)
             (with (id 'c) (num 4)
@@ -531,7 +515,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                             (id 'a)
                             (num 3)))))))
 
-
     (interp
         (with (id 'b) (num 9)
             (with (id 'c) (num 4)
@@ -544,7 +527,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                                 (id 'a)
                                 (num 3))))))))
 
-
     (interp
         (with (id 'b) (num 9)
             (with (id 'c) (num 4)
@@ -554,7 +536,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                             (add
                                 (subst (id 'c) (id 'a) (num 3))
                                 (subst (id 'd) (id 'a) (num 3)))))))))
-
 
     (interp
         (with (id 'b) (num 9)
@@ -603,29 +584,40 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
 }
 ```
 
-**Solución:**
+   **Solución:**
+ ```ocaml
 
-```ocaml
-{with {2}
-    {with {3}
-        {with {4}
-            {with {{+ <: 2 0 > {- <: 1 0 > <: 0 0 > } }}
-                {with {{with { {+ <: 3 0>  <: 2 0> }} <: 0  1 > }}
-                    {+ <: 2 0> {with {{- <: 3 0 > <: 1 0 > }} {- <: 0 0> <: 4 0 > }}}
-                }
-            }
-        } 
-    }
-}
-```
-5. Dadas las siguientes expresiones representadas mediante índices de De Bruijn, obtén su respectiva versión usando los nombres de los identificadores de variables, iniciando por $x$, $y$, $z$, $v$, $w$.
+{with { 2}
+        {with { 3}
+                {with { 4}
+                        {with {  {+ <: 2 0> {- <: 1 0> <: 0 0>} } }
+                                {with { {with { {+ <: 3 0>  <: 2 0> } } <: 0  1> } }
+                                        {+ <: 2 0> {with { {- <: 3 0> <: 1 0> } } {- <: 0 0>  <: 4 0> } } } } } } } }
+  ```
+5. Dadas las siguientes expresiones representadas mediante índices de De Bruijn, obtén su respectiva versión usando los nombres de los identificadores de variables, iniciando por "x", ” y ”, "z", "v", "w".
 
     ```ocaml
     {with {1 2 3}
         {with {4 5 6}
             {with { {with {{+ <:0 1> <:1 2>} {- <:1 1> <:0 0>}}  3} }
                 {with {<: 0 0>}
-                    {+ <:3 2> {+ <:2 1> {+ <:1 0> <:0 0>}}}}}}}
+                    {+ <:3 2> {+ <:2 1> {+ <:1 0> <:0 0>}}}
+                }
+            }
+        }
+    }
+    ```
+
+    ```ocaml
+    {with {1 {e 2} {d 3}}
+        {with {{f 4} {c 5} {g 6}}
+            {with { {b {with {{+ c d} {- e f}}  3} } }
+                {with {{a b}}
+                    {+ g {+ <:2 1> {+ b a}}}
+                }
+            }
+        }
+    }
     ```
 
     **Procedimiento:**
@@ -637,8 +629,11 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     {with { {+ <:0 1> <:1 2>} {- <:1 1> <:0 0>} } 3}
                 }
                 {with {<: 0 0>}
-                    {+ <:3 2> {+ <:2 1> {+ <:1 0> <:0 0>}}}}}}}
-
+                    {+ <:3 2> {+ <:2 1> {+ <:1 0> <:0 0>}}}
+                }
+            }
+        }
+    }
 
     {with {1 {f 2} {d 3}}
         {with {{e 4} {c 5} 6}
@@ -647,8 +642,11 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     {b {with { {+ e d} {- f e} } 3}}
                 }
                 {with {a b}
-                    {+ d {+ c {+ b a}}}}}}}
-
+                    {+ d {+ c {+ b a}}}
+                }
+            }
+        }
+    }
 
     {with {u 1}
         {with {f 2}
@@ -658,9 +656,16 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                         {with {w 6}
                             {with {b {with { {+ e d} {- f e} } 3}}
                                 {with {a b}
-                                    {+ d {+ c {+ b a}}}}}}}}}}}
+                                    {+ d {+ c {+ b a}}}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     ```
-
     **Solución:**
     ```ocaml
     {with {x 1}
@@ -679,7 +684,15 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                                     }
                                 }
                                 {with {a b}
-                                    {+ z {+ w {+ b a}}}}}}}}}}}
+                                    {+ z {+ w {+ b a}}}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     ```
 
 <br>
@@ -691,7 +704,11 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
         {with {x 3}
             {with {y {+ w x}}
                 {with { w -2}
-                    {with {x -3} {+ y y}}}}}}
+                    {with {x -3} {+ y y}}
+                }
+            }
+        }
+    }
     ```
 
 <br>
@@ -701,15 +718,17 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
     ```scheme
     (interp (parse e))
 
-
     (interp 
         (parse 
             {with {w 2}
                 {with {x 3}
                     {with {y {+ w x}}
                         {with { w -2}
-                            {with {x -3} {+ y y}}}}}}))
-
+                            {with {x -3} {+ y y}}
+                        }
+                    }
+                }
+            }))
 
     (interp 
         (with 
@@ -719,8 +738,10 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 {with {x 3}
                     {with {y {+ w x}}
                         {with { w -2}
-                            {with {x -3} {+ y y}}}}})))
-
+                            {with {x -3} {+ y y}}
+                        }
+                    }
+                })))
 
     (interp 
         (with (id 'w) (num 2)
@@ -730,8 +751,9 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (parse
                     {with {y {+ w x}}
                         {with { w -2}
-                            {with {x -3} {+ y y}}}}))))
-
+                            {with {x -3} {+ y y}}
+                        }
+                    }))))
 
     (interp 
         (with (id 'w) (num 2)
@@ -741,8 +763,9 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     (parse {+ w x})
                     (parse
                         {with { w -2}
-                            {with {x -3} {+ y y}}})))))
-
+                            {with {x -3} {+ y y}}
+                        }
+                    )))))
 
     (interp 
         (with (id 'w) (num 2)
@@ -753,8 +776,9 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                         (parse w)
                         (parse -2)
                         (parse
-                            {with {x -3} {+ y y}}))))))
-
+                            {with {x -3} {+ y y}}
+                        )
+                    )))))
 
     (interp 
         (with (id 'w) (num 2)
@@ -764,8 +788,13 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                         (with
                             (parse x)
                             (parse -3)
-                            (parse {+ y y})))))))
-
+                            (parse {+ y y})
+                        )
+                    )
+                )
+            )
+        )
+    )
 
     (interp 
         (with (id 'w) (num 2)
@@ -773,8 +802,8 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (with (id 'y) (add (id 'w) (id 'x))
                     (with (id 'w) (num -2)
                         (with (id 'x) (num -3)
-                            (add (parse y) (parse y))))))))
-
+                            (add (parse y) (parse y))
+                        ))))))
 
     (interp 
         (with (id 'w) (num 2)
@@ -783,7 +812,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     (with (id 'w) (num -2)
                         (with (id 'x) (num -3)
                             (add (id 'y) (id 'y))))))))
-
 
     (interp 
         (subst 
@@ -795,7 +823,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
             (id 'w)
             (interp (num 2))))
 
-
     (interp 
         (subst 
             (with (id 'x) (num 3)
@@ -805,7 +832,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                             (add (id 'y) (id 'y))))))
             (id 'w) 
             (num 2)))
-
 
     (interp 
         (with (id 'x)
@@ -817,10 +843,12 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (with (id 'y) (add (id 'w) (id 'x))
                     (with (id 'w) (num -2)
                         (with (id 'x) (num -3)
-                            (add (id 'y) (id 'y)))))
+                            (add (id 'y) (id 'y))
+                        )
+                    )
+                )
                 (id 'w) 
                 (num 2))))
-
 
     (interp 
         (with (id 'x) (num 3)
@@ -828,10 +856,12 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (with (id 'y) (add (id 'w) (id 'x))
                     (with (id 'w) (num -2)
                         (with (id 'x) (num -3)
-                            (add (id 'y) (id 'y)))))
+                            (add (id 'y) (id 'y))
+                        )
+                    )
+                )
                 (id 'w) 
                 (num 2))))
-
 
     (interp 
         (with (id 'x) (num 3)
@@ -840,14 +870,16 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (subst 
                     (add (id 'w) (id 'x))
                     (id 'w) 
-                    (num 2))
+                    (num 2)
+                )
                 (subst
                     (with (id 'w) (num -2)
                         (with (id 'x) (num -3)
-                            (add (id 'y) (id 'y))))
+                            (add (id 'y) (id 'y))
+                        )
+                    )
                     (id 'w) 
                     (num 2)))))
-
 
     (interp 
         (with (id 'x) (num 3)
@@ -866,7 +898,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                         (num -3)
                         (add (id 'y) (id 'y)))))))
 
-
     (interp 
         (with (id 'x) (num 3)
             (with (id 'y) 
@@ -875,17 +906,18 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     (with (id 'x) (num -3)
                         (add (id 'y) (id 'y)))))))
 
-
     (interp 
         (subst
             (with (id 'y) 
                 (add (num 2) (id 'x))
                 (with (id 'w) (num -2)
                     (with (id 'x) (num -3)
-                        (add (id 'y) (id 'y)))))
+                        (add (id 'y) (id 'y))
+                    )
+                )
+            )
             (id 'x)
             (num 3)))
-
 
     (interp 
         (with (id 'y) 
@@ -896,10 +928,11 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
             (subst
                 (with (id 'w) (num -2)
                     (with (id 'x) (num -3)
-                        (add (id 'y) (id 'y))))
+                        (add (id 'y) (id 'y))
+                    )
+                )    
                 (id 'x)
                 (num 3))))
-
 
     (interp 
         (with (id 'y) 
@@ -922,7 +955,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     (id 'x)
                     (num 3)))))
 
-
     (interp 
         (with (id 'y) 
             (add (num 2) (num 3))
@@ -936,8 +968,8 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     (subst
                         (add (id 'y) (id 'y))
                         (id 'x)
-                        (num 3))))))
-
+                        (num 3))
+                ))))
 
     (interp 
         (with (id 'y) 
@@ -950,25 +982,31 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                             (num 3))
                         (subst (id 'x)
                             (id 'x)
-                            (num 3)))))))
-
+                            (num 3))
+                    )
+                )
+            )))
 
     (interp 
         (with (id 'y) 
             (add (num 2) (num 3))
             (with (id 'w) (num -2)
                 (with (id 'x) (num -3)
-                    (add (id 'y) (num 3))))))
-
+                    (add (id 'y) (num 3))
+                )
+            )
+        ))
 
     (interp 
         (subst
             (with (id 'w) (num -2)
                 (with (id 'x) (num -3)
-                    (add (id 'y) (num 3))))
+                    (add (id 'y) (num 3))
+                )
+            )
             (id 'y)
-            (add (num 2) (num 3))))
-
+            (add (num 2) (num 3))
+        ))
 
     (interp 
         (with
@@ -982,7 +1020,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (id 'y)
                 (add (num 2) (num 3)))))
 
-
     (interp 
         (with (id 'x) (num -3)
             (add
@@ -993,8 +1030,8 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (subst 
                     (num 3)
                     (id 'y)
-                    (add (num 2) (num 3))))))
-
+                    (add (num 2) (num 3)))
+            )))
 
     (interp 
         (with (id 'x) 
@@ -1003,16 +1040,15 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (add (num 2) (num 3))
                 (num 3))))
 
-
     (interp
         (subst
             (add
                 (add (num 2) (num 3))
-                (num 3))
+                (num 3)
+            )
             (id 'x) 
             (num -3)))
     
-
     (interp
         (add
             (subst
@@ -1023,7 +1059,6 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                 (num 3)
                 (id 'x)
                 (num -3))))
-
 
     (interp
         (add
@@ -1038,18 +1073,15 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     (num -3)))
             (num 3)))
     
-
     (interp
         (add
             (add (num 2) (num 3))
             (num 3)))
 
-
     (num
         (+ 
             (num (interp (add (num 2) (num 3))))
             (num (interp (num 3)))))
-
 
     (num
         (+ 
@@ -1059,21 +1091,15 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
                     (num-n (interp (num 3))))
             (num 3)))
 
-
     (num (+ (num (+ (num 2) (num 3))) (num 3)))
-
 
     (num (+ (num (num 5)) (num 3)))
 
-
     (num (+ (num 5) (num 3)))
-
 
     (num (num 8))
 
-
     (num 8)
-
     
     8
     ```
@@ -1094,3 +1120,13 @@ No hay representación posible para  {+ 44} en ASA, por lo tanto no se puede gen
     se ejecuta el mismo.
 
 <br>
+
+---
+
+## Referencias
+
+<br>
+
+- Maurer, W.D. (1972) Introduction to Programming Science-Part I: Syntax and Semantics of Programming Languages; EECS Department, University of California, Berkeley (http://www2.eecs.berkeley.edu/Pubs/TechRpts/1972/28726.html)
+
+- Buschman Frank (1996) Pattern-Oriented Software Architecture Volume 1: A System of Patterns, Wiley (https://www.amazon.com/Pattern-Oriented-Software-Architecture-System-Patterns/dp/0471958697)
