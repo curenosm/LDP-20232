@@ -1,0 +1,155 @@
+#lang plai
+
+;; Importando el archivo donde se declara el parser.
+(require "parser.rkt")
+(require "grammars.rkt")
+(require "interp.rkt")
+
+;; Pruebas exitosas
+(displayln "Pruebas parser")
+(parse '{* {+ {- 1 2} {* 3 5}} 3})
+(parse '{* {+ {- 1 2} {* 3 5}} 3})
+(parse '{anD #t #t #t #t #t {oR #f #f #f {<= 1 2}}})
+(parse '{with {{condicion {< 3 4}} {bienvenido "Bienvenido a nuestro lenguaje de programacion"}} bienvenido})
+(parse '{and #t})
+(parse '{list? {list 1 2}})
+(parse '{and #t #t})
+
+;; Pruebas parser PDF
+(displayln "Pruebas parser PDF")
+(parse 12345)
+(parse 'apple)
+(parse #t)
+(parse #\A)
+(parse "Hoy comeré rico")
+(parse '{+ 1 2})
+;;(parse '{+ 1}) ;; error "El procedimiento espera al menos 2 argumentos. Número de argumentos dados: 1."
+(parse '(or #t #f #t))
+(parse '(#f 1))
+(parse '(#f 1 hello #\B "Tengo hambre"))
+(parse '{with ([x 2] [y 3]) (+ x y)})
+;;(parse '{with ([x 2 2] [y 3]) (+ x y)}) ;; error "Binding "[x 2 2]" mal formado."
+;;(parse '{with ([x 2] [3 y]) (+ x y)}) ;; error "Binding "[3 y]" mal formado."
+(parse '{with* ([x 2] [y 3]) (+ x y)})
+
+
+;; Pruebas interp PDF
+(displayln "Pruebas interp PDF")
+(interp (parse 12345))
+(interp (parse true))
+(interp (anD (lst (list (bool true) (bool true)))))
+(interp (oR (lst (list (bool false) (bool false)))))
+(interp (parse '{+ 1 2 3 4 5}))
+(interp (parse '{with {{a 2} {b 3}} {+ a b}}))
+(interp (parse '{with* {{a 2} {b {+ a a}}} b}))
+(interp (op + (list (num 1) (num 2))))
+
+;; Pruebas anD y oR
+
+(interp (parse '{list 1 2 3 4}))
+(anD (parse '())) ;; True
+
+(oR (parse empty)) ;; False
+
+(anD
+  (lst
+    (list
+      (bool true)
+      (bool true)))) ;; True
+
+(oR
+  (lst
+    (list
+      (bool false)
+      (bool false)
+      (bool false)
+      (bool #t)))) ;; True
+
+(anD
+  (lst
+    (list
+      (bool #t)
+      (bool #true)
+      (bool #f)))) ;; False
+(oR
+  (lst
+    (list
+      (bool #f)
+      (bool #false)
+      (bool #t)))) ;; True
+
+(desugar
+  (parse
+    '{with*
+       {
+         {a #t}
+         {b #f}
+         {c {and {list a b}}}
+       } c}))
+
+;; Pruebas interp
+
+(displayln "Pruebas interp")
+
+(subst 
+  (parse '{+ x x}) 'x (num 2))
+
+(interp 
+  (parse
+    '{with* {[a 1] [b 3]} {+ a b}}))
+
+(interp 
+  (parse
+    '{with* {[a 1] [b {+ 1 a}]} {+ a b}}))
+
+(desugar
+  (parse '{with* {[a 1] [b {+ 1 a}] [c {+ 1 b}]} {+ a b c}}))
+
+(interp
+  (desugar
+    (parse
+      '{with* {[a 1] [b {+ 1 a}] [c {+ 1 b}]} {+ a b c}})))
+
+(interp
+  (desugar
+    (parse
+      '{with {[a 1] [b {+ 1 a}]} {+ a b}})))
+
+(interp
+  (desugar
+    (parse
+      '{with {[a 1] [b {+ 1 a}]} {+ a b}})))
+
+(interp 
+  (desugar 
+    (parse 
+      '{with* {{a 1} {b {+ a 1}} {c 3}}
+        {with {{d 55}}
+          {+ d {* a b c {- c a}}}}})))
+
+(interp 
+  (desugar 
+    (parse 
+      '{with* {[a 1] [b {+ a 1}] [c {3}]}
+        {with {[d 55]}
+          {+ d {* a b c {- c a}}}}})))
+
+(interp
+  (desugar
+    (parse
+      '(and #t #t #f))))
+
+(interp
+  (desugar (parse '(or '(#f #t #f)))))
+
+(parse
+  '{with ([x #f] [y #t]) (and x y)})
+
+(interp
+  (desugar
+    (parse '{with ([x #f] [y #t]) (and '(x y))})))
+
+(interp
+  (desugar
+    (parse
+      '{with* {{a #t} {b #f} {c {and {list a b}}}} c})))

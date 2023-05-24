@@ -1,0 +1,1 @@
+("8.7" ta6nt ("bd650a5535bf311c698be2288a01fd312f4a4326" . "6b9f4aa288aa788859cdc7a7d777ab50c0e60267") #"C:\\Users\\Misael\\Documents\\github\\materias\\LDP-20232\\practicas\\practica_4\\grammars.rkt" (collects #"drracket" #"private" #"drracket-errortrace-key.rkt") (collects #"plai" #"lang" #"reader.rkt") (collects #"plai" #"main.rkt") (collects #"racket" #"runtime-config.rkt"))

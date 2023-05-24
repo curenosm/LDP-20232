@@ -23,12 +23,12 @@
     [op (f args)
       (op f
         (map
-          (λ (x) (subst x id-param value))
+          (lambda (x) (subst x id-param value))
           args))]
     [lst (l)
       (lst
         (map
-          (λ (x) (subst x id-param value))
+          (lambda (x) (subst x id-param value))
           l))]
     [with (bindings body)
         (if (empty? bindings)
@@ -37,7 +37,7 @@
             expr
             (with
               (map
-                (λ (x) 
+                (lambda (x) 
                   (binding (binding-id x) (subst (binding-value x) id-param value)))
                 bindings)
               (subst body id-param value))))]
@@ -48,7 +48,7 @@
             expr
             (with
               (map
-                (λ (x) 
+                (lambda (x) 
                   (binding (binding-id x) (subst (binding-value x) id-param value)))
                 bindings)
               (subst body id-param value))))]))
@@ -63,7 +63,7 @@
     [chaR   (c) expr]
     [strinG (s) expr]
     [op     (f args)
-      (parse (apply f (map (λ (x) (get-racket-value (interp x))) args)))]
+      (parse (apply f (map (lambda (x) (get-racket-value (interp x))) args)))]
     [lst    (l)
       (lst (map interp l))]
     [with   (list-bindings body)
